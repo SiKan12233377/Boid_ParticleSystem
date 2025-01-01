@@ -475,7 +475,7 @@ PrefabInstance:
     - target: {fileID: 6069938112781374810, guid: ed5a4adb1bce442e3b313bd940d1fbc1,
         type: 3}
       propertyPath: boidsPerTeam
-      value: 5000
+      value: 3000
       objectReference: {fileID: 0}
     - target: {fileID: 6069938112781374810, guid: ed5a4adb1bce442e3b313bd940d1fbc1,
         type: 3}
