@@ -90,7 +90,7 @@ new()
         };
         columnHeader.ResizeToFit();
     }
-    
+    /*
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
@@ -192,6 +192,8 @@ new()
         if(Application.isPlaying)
             Repaint();
     }
+
+    */
     /*
     public struct Boid
     {

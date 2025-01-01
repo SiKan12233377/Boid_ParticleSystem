@@ -25,6 +25,8 @@ public class Boids : MonoBehaviour
         }
         //set => _instance = value;
     }
+    [Header("当前对象的数量，不一定准确")]
+    public int targetNum = 0;
 
     [Header("队伍中的粒子（对象）数量")]
     public int boidsPerTeam = 1024;
@@ -36,7 +38,10 @@ public class Boids : MonoBehaviour
     public ParticleSystem laserSystem;//激光 的粒子系统，类似于 Boid 发射激光的效果。
     public ParticleSystem.EmitParams laserSystem_ep;//激光参数
 
+    [Header("生成实体的频率")]
     public float spawnRate = 0.3f;//生成频率
+    [Header("生成实体的一次数量,平时应该是1")]
+    public int spawnNum = 10;
     private float spawnTicker = 1.0f;    //生成冷却计时
 
     public Team[] teams;//总共有多少个队伍
@@ -424,6 +429,9 @@ public class Boids : MonoBehaviour
                         separationVect -= distVect / (dist * 0.1f);
                         separationCount++;
                     }
+                    //如果有攻击目标就脱离群体，不再执行鸟群的力计算
+                    if (b.team != _boidsAlt[i].team)
+                        if (b.targetID != -1) break;
                 }
             }
 
@@ -622,22 +630,36 @@ public class Boids : MonoBehaviour
     {
         if (spawnTicker > 0f) return;
 
-        while (_boids[boidSpawnIndex].active)
+        for (int i = 0; i < spawnNum; i++)
         {
-            boidSpawnIndex = (int)Mathf.Repeat(boidSpawnIndex + 1, _boids.Length);
+            // 寻找下一个未激活的Boid用于生成新的飞船
+            // 通过循环判断当前的boidSpawnIndex指向的Boid是否处于活动状态
+            // 如果该Boid处于活动状态，则通过 Mathf.Repeat 确保 boidSpawnIndex 在数组范围内，依次查找下一个未激活的Boid
+            while (_boids[boidSpawnIndex].active)
+            {
+                boidSpawnIndex = (int)Mathf.Repeat(boidSpawnIndex + 1, _boids.Length);
+            }
+            if (boidSpawnIndex >= maxBoids - 1) return;
+            // 获取当前 boidSpawnIndex 位置的 Boid 实例
+            var boid = _boids[boidSpawnIndex];
+
+            // 随机选择一个队伍的出生点，用于生成新的飞船
+            var point = teams[boid.team].spawnPoints[UnityEngine.Random.Range(0, teams[boid.team].spawnPoints.Length)];
+
+            // 如果选择的出生点处于活动状态（例如该出生点没有被禁用）
+            if (point.gameObject.activeInHierarchy)
+            {
+                // 调用 Boid 的 Spawn 方法，传入出生点的位置和朝向
+                boid.Spawn(point.position, point.forward);
+                // 将更新后的 Boid 对象重新赋值给数组，确保 Boid 的状态正确
+                _boids[boidSpawnIndex] = boid;
+                // 重置 boidSpawnIndex 为 0，准备下一次生成
+            }
+            targetNum = boidSpawnIndex;
         }
-        
-        var boid = _boids[boidSpawnIndex];
 
-        var point = teams[boid.team].spawnPoints[UnityEngine.Random.Range(0, teams[boid.team].spawnPoints.Length)];
-
-        if (point.gameObject.activeInHierarchy)
-        {
-            boid.Spawn(point.position, point.forward);
-            _boids[boidSpawnIndex] = boid;
-            boidSpawnIndex = 0;
-        }
-
+        boidSpawnIndex = 0;
+        // 重置生成时间计时器
         ResetTicker();
     }
 

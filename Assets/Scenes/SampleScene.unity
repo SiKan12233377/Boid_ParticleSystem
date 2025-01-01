@@ -469,9 +469,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6069938112781374810, guid: ed5a4adb1bce442e3b313bd940d1fbc1,
         type: 3}
+      propertyPath: spawnNum
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6069938112781374810, guid: ed5a4adb1bce442e3b313bd940d1fbc1,
+        type: 3}
+      propertyPath: boidsPerTeam
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6069938112781374810, guid: ed5a4adb1bce442e3b313bd940d1fbc1,
+        type: 3}
       propertyPath: boidTurnSpeed
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 6069938112781374810, guid: ed5a4adb1bce442e3b313bd940d1fbc1,
+        type: 3}
+      propertyPath: teams.Array.data[0].ship.mesh
+      value: 
+      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 6069938112781374810, guid: ed5a4adb1bce442e3b313bd940d1fbc1,
+        type: 3}
+      propertyPath: teams.Array.data[1].ship.mesh
+      value: 
+      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 6069938112781374810, guid: ed5a4adb1bce442e3b313bd940d1fbc1,
         type: 3}
       propertyPath: teams.Array.data[0].shipColor.b
