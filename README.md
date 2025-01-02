@@ -1,5 +1,5 @@
 # Boid_ParticleSystem
- ABS鸟群算法+粒子逻辑对象+Dots
+ ABS鸟群算法+粒子逻辑对象+Dots+ECS
 
  内容：
  简单的战斗逻辑，每个对象都有自己的简单ai，脱离战斗时的鸟群算法
